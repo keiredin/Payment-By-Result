@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-
+var UUID = require('node-uuid');
 
 const RecordSchema = new mongoose.Schema({
     batch_number : {
-        type: Number,
-        required: true,
+        type: String, 
+        default: UUID()
     },
     paitent_id : {
         type: mongoose.Schema.Types.ObjectId,
