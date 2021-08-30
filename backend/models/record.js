@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-var UUID = require('node-uuid');
 
 const RecordSchema = new mongoose.Schema({
     batchNumber : {
