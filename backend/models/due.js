@@ -8,7 +8,7 @@ const DueSchema = new mongoose.Schema({
     },
     isPaid : {
         type : Boolean,
-        required : true
+        default : false
     }
     date : {
         type : Date,
