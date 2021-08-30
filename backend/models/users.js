@@ -33,7 +33,7 @@ const UserSchema = new mongoose.Schema({
     },
     created_at : {
         type: Date,
-        defaultStatus: Date.now()
+        defaultStatus: Date.now
     }
 })
 
