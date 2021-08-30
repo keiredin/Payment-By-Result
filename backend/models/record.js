@@ -7,15 +7,15 @@ const RecordSchema = new mongoose.Schema({
         required: true,
     },
     paitent_id : {
-        type: mongoose.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
     doctor_id : {
-        type: mongoose.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         required : true
     },
     intervention_code : {
-        type : mongoose.Types.ObjectId,
+        type : mongoose.Schema.Types.ObjectId,
     }
     
 })
