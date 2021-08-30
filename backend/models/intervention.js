@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 
 const InterventionSchema = new mongoose.Schema({
-    cpt_code : {
+    cptCode : {
         type : Number,
         required : true
     }

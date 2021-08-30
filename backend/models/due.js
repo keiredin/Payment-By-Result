@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 
 
 const DueSchema = new mongoose.Schema({
-    batch_number : {
+    batchNumber : {
         type : mongoose.Schema.Types.ObjectId,
         required : true
     },
-    is_paid : {
+    isPaid : {
         type : Boolean,
         required : true
     }

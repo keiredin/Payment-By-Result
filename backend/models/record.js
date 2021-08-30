@@ -2,19 +2,19 @@ const mongoose = require('mongoose');
 var UUID = require('node-uuid');
 
 const RecordSchema = new mongoose.Schema({
-    batch_number : {
+    batchNumber : {
         type: String, 
-        default: UUID()
+        required: true
     },
-    paitent_id : {
+    paitentId : {
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    doctor_id : {
+    doctorId : {
         type: mongoose.Schema.Types.ObjectId,
         required : true
     },
-    intervention_code : {
+    interventionCode : {
         type : mongoose.Schema.Types.ObjectId,
     }
     

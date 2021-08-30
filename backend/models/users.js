@@ -18,20 +18,20 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    profile_image : {
+    profileImage : {
         type: String,
     },
     phone : {
         type: String,
     },
-    date_of_birth: {
+    dateOfBirth: {
         type: Date
         required: true
     },
     speciality : {
         type: String,
     },
-    created_at : {
+    createdAt : {
         type: Date,
         defaultStatus: Date.now
     }
