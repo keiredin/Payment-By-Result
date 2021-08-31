@@ -4,7 +4,11 @@ const  Record = require('../models/record')
 const getRecords = async (req, res) => {
     try{
         const { userID: userID } = req.params
-        const patientRecords = await Record.find({paitentId: userID})
+        const patientRecords = await Record.find({patientId: userID})
+        if(!patientRecords){
+            return res.status(400).json({msg:`tThere is no Patient exist with id ${userID}`})
+        }
+
         res.status(200).json({patientRecords})
     }catch (error){
         res.status(500).json({msg: error})
@@ -15,8 +19,13 @@ const getSingleRecord = async (req, res) => {
     try{
         const { userID: userID } = req.params
         const { batchID: batchID } = req.params
-        const patientRecord = await Record.find({paitentId: userID,batchNumber: batchID})
+        const patientRecord = await Record.find({patientId: userID,batchNumber: batchID})
+        if(!patientRecord){
+            return res.status(400).json({msg:`The patient doest not have record under ${batchID} batchNumber`})
+        }
+
         res.status(200).json({patientRecord})
+
     }catch (error){
         res.status(500).json({msg: error})
     }
