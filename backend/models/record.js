@@ -5,7 +5,7 @@ const RecordSchema = new mongoose.Schema({
         type: String, 
         required: true
     },
-    paitentId : {
+    patientId : {
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
