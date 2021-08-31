@@ -1,6 +1,69 @@
 const Users = require('../models/users')
 const  Record = require('../models/record')
 
+// ***************************************
+// Mebea's Part
+// ***************************************
+
+const getAllUsers = async (req, res) => {
+    try{
+        const users = await Users.find({})
+        res.status(200).json({ users })
+    }
+    catch(error){
+        res.status(500).json({msg: error})
+    }
+}
+
+const getSingleUser = async(req, res) => {
+    try{
+        const { id:userID } = req.params
+        const user = await Users.findOne({_id:userID})
+
+        if(!user){
+            return res.status(404).json({msg: `No user with id: ${id}`})
+        }
+        res.status(200).json({ user })
+    }
+    catch(error){
+        res.status(500).json({msg: error})
+    }
+}
+
+const updatePassword = async (req, res) => {
+    try{
+        const {id:userID} = req.params
+        const user = await Users.findOneAndUpdate({ _id:userID }, req.body, {new:true})
+
+        if(!user){
+            return res.status(404).json({msg: `No user with id: ${id}`})
+        }
+        res.status(200).json({ msg: "User password is updated successfully!" })
+    }
+    catch (error) {
+        res.status(500).json({msg: error})
+    }
+}
+
+const deactivateUser = async (req, res) => {
+    try{
+        const {id:userID} = req.params
+        const user = await Users.findOneAndDelete({ _id:userID })
+
+        if(!user){
+            return res.status(404).json({msg: `No user with id: ${id}`})
+        }
+        res.status(200).json({ msg: "User is deactivated successfully!" })
+    }
+    catch (error) {
+        res.status(500).json({msg: error})
+    }
+}
+
+// ***************************************
+// Keiredin's Part
+// ***************************************
+
 const getRecords = async (req, res) => {
     try{
         const { userID: userID } = req.params
@@ -42,19 +105,24 @@ const createRecord = async (req, res) => {
     
 }
 
-const getUsers = async (req, res) => {
+const searchUser = async (req, res) => {
     try{
         const users = await Users.find({name: '/req.params.name/'})
         res.status(201).json({ task })
-    }catch{
+    }
+    catch{
         res.status(500).json({msg:error})
     }
-  }
+}
 
 
 module.exports = {
+    getAllUsers,
+    getSingleUser,
+    updatePassword,
+    deactivateUser,
     getRecords,
     getSingleRecord,
     createRecord,
-    getUsers
+    searchUser
 }
