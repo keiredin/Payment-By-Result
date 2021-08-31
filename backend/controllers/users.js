@@ -118,8 +118,10 @@ const createRecord = async (req, res) => {
 
 const searchUser = async (req, res) => {
     try{
-        const users = await Models.Users.find({name: '/req.params.name/'})
-        res.status(201).json({ task })
+        const {name:name} = req.query
+        console.log(name)
+        const users = await Users.find({name: {$regex: `${name}`, $options: "i"}})
+        res.status(200).json({ users })
     }
     catch{
         res.status(500).json({msg:error})

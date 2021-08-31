@@ -14,7 +14,7 @@ const router = express.Router()
 router.route('/:userID').get(getSingleUser).patch(updatePassword).delete(deactivateUser)
 router.route('/:userID/records').get(getRecords).post(createRecord)
 router.route('/:userID/records/:batchID').get(getSingleRecord)
-router.route('/:username').get(searchUser)
+router.route('/search').get(searchUser)
 router.route('/').get(getAllUsers)
 
 
