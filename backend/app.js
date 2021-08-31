@@ -1,5 +1,8 @@
 const express = require("express");
 const app = express();
+require("express-async-errors");
+const notFoundMiddleware = require("./middleware/not-found");
+const errorHandlerMiddleware = require("./middleware/error-handler");
 
 const connectDb = require("./db/connect");
 require("dotenv").config();
@@ -8,6 +11,9 @@ require("dotenv").config();
 app.use(express.json());
 
 // routes
+
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
 
 const port = 3000;
 
