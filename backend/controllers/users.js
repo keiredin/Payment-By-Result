@@ -4,6 +4,7 @@ const {
     BadRequestError,
 } = require('../errors/index')
 const bcrypt = require('bcryptjs');
+const { Model } = require('mongoose');
 
 const getAllUsers = async (req, res) => {
     try{
@@ -19,6 +20,7 @@ const getSingleUser = async(req, res) => {
     try{
         const { userID:userID } = req.params
         const user = await Models.Users.findById(userID)
+        console.log(user)
 
         if(user){
             return res.status(200).json({ user })
@@ -116,15 +118,17 @@ const createRecord = async (req, res) => {
     
 }
 
-const searchUser = async (req, res) => {
+const searchUsers = async (req, res) => {
     try{
         const {name:name} = req.query
-        console.log(name)
-        const users = await Users.find({name: {$regex: `${name}`, $options: "i"}})
+        const users = await Models.Users.find({name: {$regex: `${name}`, $options: "i"}})
+        if(!users){
+            return res.status(404).json({msg:"No user exist"})
+        }
         res.status(200).json({ users })
     }
     catch{
-        res.status(500).json({msg:error})
+        res.status(500).json({msg:"error"})
     }
 }
 
@@ -136,6 +140,7 @@ module.exports = {
     deactivateUser,
     getRecords,
     getSingleRecord,
+    searchUsers,
     createRecord,
-    searchUser
+    
 }
