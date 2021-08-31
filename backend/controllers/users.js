@@ -1,7 +1,7 @@
 const Users = require('../models/users')
 const  Record = require('../models/record')
 
-const getRecord = async (req, res) => {
+const getRecords = async (req, res) => {
     try{
         const { id: userID } = req.params
         const patientRecords = await Record.find({paitentId: userID})
@@ -33,9 +33,19 @@ const createRecord = async (req, res) => {
     
 }
 
+const getUsers = async (req, res) => {
+    try{
+        const users = await Users.find({name: '/req.params.name/'})
+        res.status(201).json({ task })
+    }catch{
+        res.status(500).json({msg:error})
+    }
+  }
+
 
 module.exports = {
-    getRecord,
+    getRecords,
     getSingleRecord,
     createRecord,
+    getUsers
 }
