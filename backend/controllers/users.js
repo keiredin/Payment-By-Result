@@ -1,10 +1,9 @@
 const Models = require('../models/index')
-
+const {
+    NotFoundError,
+    BadRequestError,
+} = require('../errors/index')
 const bcrypt = require('bcryptjs');
-
-// ***************************************
-// Mebea's Part
-// ***************************************
 
 const getAllUsers = async (req, res) => {
     try{
@@ -21,10 +20,12 @@ const getSingleUser = async(req, res) => {
         const { userID:userID } = req.params
         const user = await Models.Users.findById(userID)
 
-        if(!user){
-            return res.status(404).json({msg: `No user with id: ${userID}`})
+        if(user){
+            return res.status(200).json({ user })
         }
-        res.status(200).json({ user })
+        else{
+            throw new NotFoundError(`No user with id ${userID}`)
+        }        
     }
     catch(error){
         res.status(500).json({msg: error})
@@ -41,17 +42,17 @@ const updatePassword = async (req, res) => {
             const comparePW = await bcrypt.compare(password, currentUser.password);
             // if provided password is the same as the former password!
             if(comparePW){
-                return res.status(400).json({msg: "Provide another password"})
+                throw new BadRequestError("Provide another password");
             }
             const hashedPW = await bcrypt.hash(password, salt);
             const user = await Models.Users.findByIdAndUpdate(userID , {"password":hashedPW}, {new:true})
             if(!user){
-                return res.status(404).json({msg: `No user with id: ${userID}`})
+                throw new NotFoundError(`No user with id ${userID}`)
             }
             return res.status(200).json({ msg: "User password is updated successfully!" })
         }
         else{
-            return res.status(400).json({msg: "Password is required to update!"})
+            throw new BadRequestError("Password is required to update!")
         }
     }
     catch (error) {
@@ -65,7 +66,7 @@ const deactivateUser = async (req, res) => {
         const user = await Models.Users.findByIdAndDelete(userID)
 
         if(!user){
-            return res.status(404).json({msg: `No user with id: ${userID}`})
+            throw new NotFoundError(`No user with id ${userID}`)
         }
         res.status(200).json({ msg: "User is deactivated successfully!" })
     }
@@ -73,10 +74,6 @@ const deactivateUser = async (req, res) => {
         res.status(500).json({msg: error})
     }
 }
-
-// ***************************************
-// Keiredin's Part
-// ***************************************
 
 const getRecords = async (req, res) => {
     try{
@@ -98,7 +95,7 @@ const getSingleRecord = async (req, res) => {
         const { batchID: batchID } = req.params
         const patientRecord = await Models.Record.find({patientId: userID,batchNumber: batchID})
         if(!patientRecord){
-            return res.status(400).json({msg:`The patient doesn't not have record under ${batchID} batchNumber`})
+            throw new BadRequestError(`The patient doesn't not have record under ${batchID} batchNumber`)
         }
 
         res.status(200).json({patientRecord})
