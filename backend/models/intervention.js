@@ -5,7 +5,7 @@ const InterventionSchema = new mongoose.Schema({
     cptCode : {
         type : Number,
         required : true
-    }
+    },
     description : {
         type: String,
         required : true
