@@ -1,4 +1,6 @@
 const express = require("express");
+
+const users = require('./routes/users')
 const app = express();
 require("express-async-errors");
 const notFoundMiddleware = require("./middleware/not-found");
@@ -9,6 +11,9 @@ require("dotenv").config();
 
 // middleware
 app.use(express.json());
+
+
+app.use('/api/v1/users', users)
 
 // routes
 
