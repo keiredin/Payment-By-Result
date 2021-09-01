@@ -1,30 +1,38 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { StatusCodes } = require("http-status-codes");
+
 const { User } = require("../models/");
-const { hashPassword } = require("./utils");
+const { BadRequestError, UnauthenticatedError } = require("../errors/");
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password: password } = req.body;
 
-  if (!username || !password) {
-    throw new Error("please provide email and password!");
+  if (!email || !password) {
+    throw new BadRequestError("Please provide email and password");
   }
 
-  const hashedPassword = hashPassword(password);
   const user = await User.findOne({ email });
 
-  if (!user || !bcrypt.compareSync(hashedPassword, user.password)) {
-    throw new Error("Wrong email or password!");
+  if (!user || !user.comparePassword(password)) {
+    throw new UnauthenticatedError("Invalid Email or Password!");
   }
 
-  const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, {
-    expiresIn: "30d",
-  });
+  const token = user.createToken();
+  const { _id, name, role } = user;
+  res.status(StatusCodes.OK).json({ user: { _id, name, role, email }, token });
+};
 
-  res.status(StatusCodes.OK).json({ token });
+const register = async (req, res) => {
+  const user = await User.create(req.body);
+  const { _id, name, role, email } = user;
+  const token = user.createToken();
+  res
+    .status(StatusCodes.CREATED)
+    .json({ user: { _id, name, role, email }, token });
 };
 
 module.exports = {
   login,
+  register,
 };
