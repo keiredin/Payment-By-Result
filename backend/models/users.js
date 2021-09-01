@@ -1,5 +1,7 @@
 const { required } = require("joi");
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -11,10 +13,11 @@ const UserSchema = new mongoose.Schema({
   },
   email: {
     type: String,
+    unique: true,
   },
   role: {
     type: String,
-    required: true,
+    default: "patient",
   },
   profileImage: {
     type: String,
@@ -24,26 +27,27 @@ const UserSchema = new mongoose.Schema({
   },
   dateOfBirth: {
     type: Date,
-    required: true,
   },
   speciality: {
     type: String,
   },
   createdAt: {
     type: Date,
-    defaultStatus: Date.now,
+    default: Date.now,
   },
 });
 
 UserSchema.pre("save", async function () {
   const salt = await bcrypt.genSalt(10);
   this.password = bcrypt.hashSync(this.password, salt);
+
+  this.dateOfBirth = Date.parse(this.dateOfBirth);
 });
 
 UserSchema.methods.createToken = function () {
   return jwt.sign(
     { userId: this._id, name: this.name },
-    process.env.JWT_SECRET,
+    process.env.SECRET_KEY,
     {
       expiresIn: "30d",
     }
