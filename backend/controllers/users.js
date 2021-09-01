@@ -1,10 +1,9 @@
 const Models = require('../models/index')
-
+const {
+    NotFoundError,
+    BadRequestError,
+} = require('../errors/index')
 const bcrypt = require('bcryptjs');
-
-// ***************************************
-// Mebea's Part
-// ***************************************
 
 const getAllUsers = async (req, res) => {
     try{
@@ -21,10 +20,12 @@ const getSingleUser = async(req, res) => {
         const { userID:userID } = req.params
         const user = await Models.Users.findById(userID)
 
-        if(!user){
-            return res.status(404).json({msg: `No user with id: ${userID}`})
+        if(user){
+            return res.status(200).json({ user })
         }
-        res.status(200).json({ user })
+        else{
+            throw new NotFoundError(`No user with id ${userID}`)
+        }        
     }
     catch(error){
         res.status(500).json({msg: error})
@@ -46,7 +47,7 @@ const updatePassword = async (req, res) => {
             const hashedPW = await bcrypt.hash(password, salt);
             const user = await Models.Users.findByIdAndUpdate(userID , {"password":hashedPW}, {new:true})
             if(!user){
-                return res.status(404).json({msg: `No user with id: ${userID}`})
+                throw new NotFoundError(`No user with id ${userID}`)
             }
             return res.status(200).json({ msg: "User password is updated successfully!" })
         }
@@ -65,7 +66,7 @@ const deactivateUser = async (req, res) => {
         const user = await Models.Users.findByIdAndDelete(userID)
 
         if(!user){
-            return res.status(404).json({msg: `No user with id: ${userID}`})
+            throw new NotFoundError(`No user with id ${userID}`)
         }
         res.status(200).json({ msg: "User is deactivated successfully!" })
     }
@@ -73,10 +74,6 @@ const deactivateUser = async (req, res) => {
         res.status(500).json({msg: error})
     }
 }
-
-// ***************************************
-// Keiredin's Part
-// ***************************************
 
 const getRecords = async (req, res) => {
     try{
