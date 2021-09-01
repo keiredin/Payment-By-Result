@@ -42,7 +42,7 @@ const updatePassword = async (req, res) => {
             const comparePW = await bcrypt.compare(password, currentUser.password);
             // if provided password is the same as the former password!
             if(comparePW){
-                return res.status(400).json({msg: "Provide another password"})
+                throw new BadRequestError("Provide another password");
             }
             const hashedPW = await bcrypt.hash(password, salt);
             const user = await Models.Users.findByIdAndUpdate(userID , {"password":hashedPW}, {new:true})
@@ -52,7 +52,7 @@ const updatePassword = async (req, res) => {
             return res.status(200).json({ msg: "User password is updated successfully!" })
         }
         else{
-            return res.status(400).json({msg: "Password is required to update!"})
+            throw new BadRequestError("Password is required to update!")
         }
     }
     catch (error) {
@@ -95,7 +95,7 @@ const getSingleRecord = async (req, res) => {
         const { batchID: batchID } = req.params
         const patientRecord = await Models.Record.find({patientId: userID,batchNumber: batchID})
         if(!patientRecord){
-            return res.status(400).json({msg:`The patient doesn't not have record under ${batchID} batchNumber`})
+            throw new BadRequestError(`The patient doesn't not have record under ${batchID} batchNumber`)
         }
 
         res.status(200).json({patientRecord})
