@@ -1,135 +1,105 @@
 const Models = require('../models/index')
-const {
-    NotFoundError,
-    BadRequestError,
-} = require('../errors/index')
+const { NotFoundError,BadRequestError } = require('../errors/index')
 const bcrypt = require('bcryptjs');
+const { StatusCodes } = require("http-status-codes");
 const { Model } = require('mongoose');
 
 const getAllUsers = async (req, res) => {
-    try{
-        const users = await Models.Users.find({})
-        res.status(200).json({ users })
+    const users = await Models.Users.find({})
+    if(!users){
+       throw new NotFoundError('Not Found') 
     }
-    catch(error){
-        res.status(500).json({msg: error})
-    }
+    res.status(StatusCodes.OK).json({ users })
+     
 }
 
 const getSingleUser = async(req, res) => {
-    try{
-        const { userID:userID } = req.params
-        const user = await Models.Users.findById(userID)
-        console.log(user)
 
-        if(user){
-            return res.status(200).json({ user })
-        }
-        else{
-            throw new NotFoundError(`No user with id ${userID}`)
-        }        
+    const { userID:userID } = req.params
+    const user = await Models.Users.findById(userID)
+    if(!user){
+        throw new NotFoundError(`No user with id ${userID}`)  
     }
-    catch(error){
-        res.status(500).json({msg: error})
-    }
+    
+    return res.status(StatusCodes.OK).json({ user })         
+
 }
 
 const updatePassword = async (req, res) => {
-    try{
-        const {userID:userID} = req.params
-        const password = req.body.password
-        if (password){
-            const salt = await bcrypt.genSalt(10)
-            const currentUser = await Models.Users.findById(userID);
-            const comparePW = await bcrypt.compare(password, currentUser.password);
-            // if provided password is the same as the former password!
-            if(comparePW){
-                throw new BadRequestError("Provide another password");
-            }
-            const hashedPW = await bcrypt.hash(password, salt);
-            const user = await Models.Users.findByIdAndUpdate(userID , {"password":hashedPW}, {new:true})
-            if(!user){
-                throw new NotFoundError(`No user with id ${userID}`)
-            }
-            return res.status(200).json({ msg: "User password is updated successfully!" })
+    
+    const {userID:userID} = req.params
+    const password = req.body.password
+    if (password){
+        const salt = await bcrypt.genSalt(10)
+        const currentUser = await Models.Users.findById(userID);
+        const comparePW = await bcrypt.compare(password, currentUser.password);
+        // if provided password is the same as the former password!
+        if(comparePW){
+            throw new BadRequestError("Provide another password");
         }
-        else{
-            throw new BadRequestError("Password is required to update!")
-        }
-    }
-    catch (error) {
-        res.status(500).json({msg: error})
-    }
-}
-
-const deactivateUser = async (req, res) => {
-    try{
-        const {userID:userID} = req.params
-        const user = await Models.Users.findByIdAndDelete(userID)
+        const hashedPW = await bcrypt.hash(password, salt);
+        const user = await Models.Users.findByIdAndUpdate(userID , {"password":hashedPW}, {new:true})
 
         if(!user){
             throw new NotFoundError(`No user with id ${userID}`)
         }
-        res.status(200).json({ msg: "User is deactivated successfully!" })
+        return res.status(StatusCodes.OK).json({ msg: "User password is updated successfully!" })
     }
-    catch (error) {
-        res.status(500).json({msg: error})
-    }
-}
-
-const getRecords = async (req, res) => {
-    try{
-        const { userID: userID } = req.params
-        const patientRecords = await Models.Record.find({patientId: userID})
-        if(!patientRecords){
-            return res.status(400).json({msg:`There is no Patient exist with id ${userID}`})
-        }
-
-        res.status(200).json({patientRecords})
-    }catch (error){
-        res.status(500).json({msg: error})
-    }
-}
-
-const getSingleRecord = async (req, res) => {
-    try{
-        const { userID: userID } = req.params
-        const { batchID: batchID } = req.params
-        const patientRecord = await Models.Record.find({patientId: userID,batchNumber: batchID})
-        if(!patientRecord){
-            throw new BadRequestError(`The patient doesn't not have record under ${batchID} batchNumber`)
-        }
-
-        res.status(200).json({patientRecord})
-
-    }catch (error){
-        res.status(500).json({msg: error})
-    }
-}
-
-
-const createRecord = async (req, res) => {
-    try{
-        const record = await Models.Record.create(req.body)
-        res.status(201).json({ record }) 
-    } catch(error) {
-        res.status(500).json({msg:error})
+    else{
+        throw new BadRequestError("Password is required to update!")
     }
     
 }
 
+const deactivateUser = async (req, res) => {
+    const {userID:userID} = req.params
+    const user = await Models.Users.findByIdAndDelete(userID)
+
+    if(!user){
+        throw new NotFoundError(`No user with id ${userID}`)
+    }
+    res.status(StatusCodes.OK).json({ msg: "User is deactivated successfully!" })  
+}
+
+const getRecords = async (req, res) => {
+    
+    const { userID: userID } = req.params
+    const patientRecords = await Models.Record.find({patientId: userID})
+    if(!patientRecords){
+        throw new NotFoundError(`There is no Patient exist with id ${userID}`)
+    }
+
+    res.status(StatusCodes.OK).json({patientRecords})
+    
+}
+
+const getSingleRecord = async (req, res) => {
+    
+    const { userID: userID } = req.params
+    const { batchID: batchID } = req.params
+    const patientRecord = await Models.Record.find({patientId: userID,batchNumber: batchID})
+    if(!patientRecord){
+        throw new BadRequestError(`The patient doesn't not have record under ${batchID} batchNumber`)
+    }
+
+    res.status(StatusCodes.OK).json({patientRecord})
+}
+
+
+const createRecord = async (req, res) => {
+    const record = await Models.Record.create(req.body)
+    res.status(StatusCodes.CREATED).json({ record })  
+}
+
 const searchUsers = async (req, res) => {
-    try{
-        const {name:name} = req.query
-        const users = await Models.Users.find({name: {$regex: `${name}`, $options: "i"}})
-        if(!users){
-            return res.status(404).json({msg:"No user exist"})
-        }
-        res.status(200).json({ users })
+    
+    const {name:name} = req.query
+    const users = await Models.Users.find({name: {$regex: `${name}`, $options: "i"}})
+    if(!users){
+        throw new NotFoundError('User Not Found')
     }
-    catch{
-        res.status(500).json({msg:"error"})
-    }
+    res.status(StatusCodes.OK).json({ users })
+    
 }
 
 
