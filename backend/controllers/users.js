@@ -2,7 +2,8 @@ const Models = require('../models/index')
 const { NotFoundError,BadRequestError } = require('../errors/index')
 const bcrypt = require('bcryptjs');
 const { StatusCodes } = require("http-status-codes");
-const { Model } = require('mongoose');
+const { Model,isValidObjectId} = require('mongoose');
+const { ObjectId } = require('mongodb');
 
 const getAllUsers = async (req, res) => {
     const users = await Models.Users.find({})
@@ -17,6 +18,7 @@ const getSingleUser = async(req, res) => {
 
     const { userID:userID } = req.params
     const user = await Models.Users.findById(userID)
+
     if(!user){
         throw new NotFoundError(`No user with id ${userID}`)  
     }
@@ -64,7 +66,14 @@ const deactivateUser = async (req, res) => {
 const getRecords = async (req, res) => {
     
     const { userID: userID } = req.params
-    const patientRecords = await Models.Record.find({patientId: userID})
+    const patientRecords = await Models.Record.aggregate([
+        {$match: {patientId: ObjectId(userID)}},
+        {$project: {patientId:1,batchNumber:1}},
+        {$group:
+             {_id:"$patientId",
+             batches: {$addToSet:"$batchNumber"},
+            }}
+    ])
     if(!patientRecords){
         throw new NotFoundError(`There is no Patient exist with id ${userID}`)
     }
@@ -77,6 +86,7 @@ const getSingleRecord = async (req, res) => {
     
     const { userID: userID } = req.params
     const { batchID: batchID } = req.params
+    
     const patientRecord = await Models.Record.find({patientId: userID,batchNumber: batchID})
     if(!patientRecord){
         throw new BadRequestError(`The patient doesn't not have record under ${batchID} batchNumber`)
