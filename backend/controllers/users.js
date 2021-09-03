@@ -5,6 +5,14 @@ const { StatusCodes } = require("http-status-codes");
 const { Model,isValidObjectId} = require('mongoose');
 const { ObjectId } = require('mongodb');
 
+
+
+// to check if the returned object is empty
+function isEmpty(object) {  
+    return Object.keys(object).length === 0
+  }
+
+
 const getAllUsers = async (req, res) => {
     const users = await Models.Users.find({})
     if(!users){
@@ -74,7 +82,7 @@ const getRecords = async (req, res) => {
              batches: {$addToSet:"$batchNumber"},
             }}
     ])
-    if(!patientRecords){
+    if(isEmpty(patientRecords)){
         throw new NotFoundError(`There is no Patient exist with id ${userID}`)
     }
 
@@ -87,10 +95,20 @@ const getSingleRecord = async (req, res) => {
     const { userID: userID } = req.params
     const { batchID: batchID } = req.params
     
-    const patientRecord = await Models.Record.find({patientId: userID,batchNumber: batchID})
-    if(!patientRecord){
-        throw new BadRequestError(`The patient doesn't not have record under ${batchID} batchNumber`)
+    // const patientRecord = await Models.Record.find({patientId: userID,batchNumber: batchID})
+    const patientRecord = await Models.Record.aggregate([
+        {$match: { patientId: ObjectId(userID), batchNumber: batchID}},
+        {$project: {patientId:1,batchNumber:1}},
+        // {$group:
+        //      {_id:"$patientId",
+        //      batches: {$addToSet:"$batchNumber"},
+        //     }}
+    ])
+    if(isEmpty(patientRecord)){
+        throw new NotFoundError(`The patient doesn't not have record under batchNumber ${batchID}`)
     }
+    console.log(typeof(patientRecord))
+    
 
     res.status(StatusCodes.OK).json({patientRecord})
 }
