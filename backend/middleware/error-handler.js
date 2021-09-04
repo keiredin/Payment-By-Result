@@ -12,10 +12,8 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     customError.statusCode = StatusCodes.BAD_REQUEST;
   }
   if (err.code && err.code === 11000) {
-    customError.msg = `Duplicate value entered for ${Object.keys(
-      err.keyValue
-    )} field, please choose another value`;
-    customError.statusCode = StatusCode.BAD_REQUEST;
+    customError.msg = `${Object.keys(err.keyValue)} already in use!`;
+    customError.statusCode = StatusCodes.BAD_REQUEST;
   }
   if (err.name === "CastError") {
     customError.msg = `No item found with id : ${err.value}`;
