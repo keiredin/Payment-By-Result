@@ -39,8 +39,10 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.pre("save", async function () {
-  const salt = await bcrypt.genSalt(10);
-  this.password = bcrypt.hashSync(this.password, salt);
+  if (this.password) {
+    const salt = await bcrypt.genSalt(10);
+    this.password = bcrypt.hashSync(this.password, salt);
+  }
 
   this.dateOfBirth = Date.parse(this.dateOfBirth);
 });
