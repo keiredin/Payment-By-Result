@@ -53,7 +53,7 @@ const updatePassword = async (req, res) => {
 
 const deactivateUser = async (req, res) => {
   const { userID: userID } = req.params;
-  const user = await Models.User.findByIdAndDelete(userID);
+  const user = await Models.User.findByIdAndUpdate(userID, { isActive: false });
 
   if (!user) {
     throw new NotFoundError(`No user with id ${userID}`);
