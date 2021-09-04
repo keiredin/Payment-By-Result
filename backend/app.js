@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 
-
 require("express-async-errors");
 require("dotenv").config();
 
@@ -12,6 +11,7 @@ const rateLimiter = require("express-rate-limit");
 
 const users = require("./routes/users");
 const authRoute = require("./routes/auth");
+const interventionsRoute = require("./routes/interventions");
 
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
@@ -28,6 +28,7 @@ app.use(rateLimiter({ windowMs: 60 * 1000, max: 60 }));
 // routes
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/users", users);
+app.use("/api/v1/interventions", interventionsRoute);
 
 // error handlers
 app.use(notFoundMiddleware);
