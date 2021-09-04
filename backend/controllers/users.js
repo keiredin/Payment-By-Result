@@ -2,13 +2,6 @@ const Models = require("../models/index");
 const { NotFoundError, BadRequestError } = require("../errors/index");
 const bcrypt = require("bcryptjs");
 const { StatusCodes } = require("http-status-codes");
-const { Model, isValidObjectId } = require("mongoose");
-const { ObjectId } = require("mongodb");
-
-// to check if the returned object is empty
-function isEmpty(object) {
-  return Object.keys(object).length === 0;
-}
 
 const getAllUsers = async (req, res) => {
   const users = await Models.User.find({});
@@ -97,6 +90,26 @@ const getSingleRecord = async (req, res) => {
   res.status(StatusCodes.OK).json({ patientRecord });
 };
 
+const markAsPaid = async (req, res) => {
+  const { userID: patient } = req.params;
+  const { batchID: recordId } = req.params;
+
+  const patientRecord = await Models.Record.findByIdAndUpdate(
+    {
+      patient,
+      _id: recordId,
+    },
+    { isPaid: true },
+    { new: true }
+  )
+    .populate({ path: "interventions" })
+    .populate({ path: "patient", select: "name" })
+    .populate({ path: "doctor", select: "name" })
+    .exec();
+
+  res.status(StatusCodes.OK).json({ patientRecord });
+};
+
 const createRecord = async (req, res) => {
   req.body.patient = req.params.userID;
   const record = await Models.Record.create(req.body);
@@ -123,4 +136,5 @@ module.exports = {
   getSingleRecord,
   searchUsers,
   createRecord,
+  markAsPaid,
 };
