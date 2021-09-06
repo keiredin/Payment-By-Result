@@ -28,6 +28,7 @@ app.use(rateLimiter({ windowMs: 60 * 1000, max: 60 }));
 // routes
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/users", users);
+app.use("/api/v1/interventions", interventionsRoute);
 
 // error handlers
 app.use(notFoundMiddleware);
