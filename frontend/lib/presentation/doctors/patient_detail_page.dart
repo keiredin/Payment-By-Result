@@ -25,10 +25,18 @@ class PatientDetailPage extends StatelessWidget {
             imagePath: 'https://i.pravatar.cc/150?u=a042581f4e29026704d',
             ownProfile: false,
           ),
-          
+          actionBar: ActionBar(
+            leadingIcon: Icons.chevron_left,
+            onLeadingPressed: () {},
+          ),
         ),
       ),
-      
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
+        backgroundColor: BLACK_COLOR,
+        foregroundColor: Colors.white,
+      ),
     );
   }
 }
