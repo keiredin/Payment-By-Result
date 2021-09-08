@@ -1,21 +1,30 @@
 const mongoose = require("mongoose");
 
 const RecordSchema = new mongoose.Schema({
-  batchNumber: {
-    type: String,
+  isPaid: {
+    type: Boolean,
+    default: false,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+  patient: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
     required: true,
   },
-  patientId: {
+  doctor: {
     type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
     required: true,
   },
-  doctorId: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-  },
-  interventionCode: {
-    type: mongoose.Schema.Types.ObjectId,
-  },
+  interventions: [
+    {
+      type: Number,
+      ref: "Intervention",
+    },
+  ],
 });
 
 module.exports = mongoose.model("Record", RecordSchema);

@@ -1,11 +1,9 @@
-const Users = require('./users')
-const Record = require('./record')
-const Intervention = require('./intervention')
-const Due = require('./due')
+const User = require("./users");
+const Record = require("./record");
+const Intervention = require("./intervention");
 
 module.exports = {
-    Users,
-    Record,
-    Intervention,
-    Due
-}
+  User,
+  Record,
+  Intervention,
+};
