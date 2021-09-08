@@ -41,3 +41,13 @@ Either<ValueFailure<String>, String> validatePassword(String input) {
     return left(ValueFailure.shortPassword(failedValue: input));
   }
 }
+
+Either<ValueFailure<String>, String> validateName(String input) {
+  const nameRegex =
+      r"""([a-zA-Z]\s*[a-zA-Z]+)""";
+  if (RegExp(nameRegex).hasMatch(input)) {
+    return right(input);
+  } else {
+    return left(ValueFailure.invalidName(failedValue: input));
+  }
+}
