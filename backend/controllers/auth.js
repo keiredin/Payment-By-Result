@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const { StatusCodes } = require("http-status-codes");
 
 const { User } = require("../models/");
-const { BadRequestError, UnauthenticatedError } = require("../errors/");
+const { BadRequestError, UnauthenticatedError , NotFoundError } = require("../errors/");
 
 const login = async (req, res) => {
   const { email, password: password } = req.body;
@@ -23,6 +23,26 @@ const login = async (req, res) => {
   res.status(StatusCodes.OK).json({ user: { _id, name, role, email }, token });
 };
 
+const emailRegistered = async (req,res) => {
+  const {email} = req.body;
+
+  if (!email) {
+    throw new BadRequestError("Please provide email ");
+  }
+
+  const user = await User.findOne({email})
+
+  if(!user){
+    throw new NotFoundError("Email does not exist");
+  }
+  if(user && user.password){
+    throw new BadRequestError("User already exists");
+  }
+  res
+    .status(StatusCodes.CONTINUE)
+    .json({msg: "email exist"})
+}
+
 const register = async (req, res) => {
   const user = await User.create(req.body);
   const { _id, name, role, email } = user;
@@ -35,4 +55,5 @@ const register = async (req, res) => {
 module.exports = {
   login,
   register,
+  emailRegistered
 };
