@@ -2,9 +2,9 @@ import './../data_providers/user_data_provider.dart';
 import './../models/models.dart';
 
 
-class CourseRepository {
+class UserRepository {
   final UsersDataProvider dataProvider;
-  CourseRepository(this.dataProvider);
+  UserRepository(this.dataProvider);
 
   Future<User> create(User user,String url) async {
     return this.dataProvider.create(user, url);

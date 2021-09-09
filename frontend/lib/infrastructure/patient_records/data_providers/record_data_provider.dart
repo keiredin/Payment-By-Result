@@ -8,7 +8,7 @@ import './../models/record.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
-class UsersDataProvider {
+class RecordsDataProvider {
   static final String _baseUrl = "http://localhost:3000/api/v1/users";
   var logger = Logger();
 
