@@ -82,23 +82,42 @@ class UsersDataProvider {
     }
   }
 
-  Future<User> fetchAll() async {
+  Future<List<User>> fetchAll() async {
+    List<User> users = [];
     final response = await http.get(Uri.parse(_baseUrl));
     if (response.statusCode == 200) {
-      print('hey');
-      final users = jsonDecode(response.body);
-      // logger.i([0]("users")["name"]);
-      logger.i((response.body));
-      return User.fromJson(users);
-      // return parseUsers(response.body);
+      // final users = jsonDecode(response.body);
+      // // logger.i([0]("users")["name"]);
+      // logger.i((response.body));
+      // return User.fromJson(users);
+      // // return parseUsers(response.body);
 
-      // final user = jsonDecode(response.body) as List;
-      // logger.i(user);
-      // return user.map((c) => User.fromJson(c)).toList();
+      final responceData = response.body as List;
+      logger.i(responceData);
+      users = responceData.map((e) => User.fromJson(e)).toList();
+      return users;
     } else {
       throw Exception("Could not fetch users");
     }
   }
+
+  // Future<User> fetchAll() async {
+  //   final response = await http.get(Uri.parse(_baseUrl));
+  //   if (response.statusCode == 200) {
+  //     print('hey');
+  //     final users = jsonDecode(response.body);
+  //     // logger.i([0]("users")["name"]);
+  //     logger.i((response.body));
+  //     return User.fromJson(users);
+  //     // return parseUsers(response.body);
+
+  //     // final user = jsonDecode(response.body) as List;
+  //     // logger.i(user);
+  //     // return user.map((c) => User.fromJson(c)).toList();
+  //   } else {
+  //     throw Exception("Could not fetch users");
+  //   }
+  // }
 
   Future<User> updatePassword(String url, User user) async {
     url = formater(url);

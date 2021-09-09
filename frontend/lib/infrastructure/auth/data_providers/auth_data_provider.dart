@@ -1,4 +1,5 @@
 import 'dart:convert';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
@@ -13,25 +14,22 @@ class AuthDataProvider {
     return parsed.map<SignUp>((json) => SignUp.fromJson(json)).toList();
   }
 
+  // FlutterSecureStorage storage = FlutterSecureStorage();
   static final String _baseUrl = "http://localhost:3000/api/v1/auth";
   var logger = Logger();
 
-
   Future<SignUp> create(SignUp user, String url) async {
+    // String? token = await storage.read(key: "token");
     url = formater(url);
     final http.Response response = await http.post(Uri.parse(url),
         headers: <String, String>{
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*"
+          "Access-Control-Allow-Origin": "*",
+          "Authorization": "Bearer token"
         },
-        body: jsonEncode({
-          "name": user.name,
-          "role": user.role,
-          "email": user.email,
-          "password": user.password
-        }));
+        body: jsonEncode(user));
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       logger.i(response.statusCode);
       logger.i(response.body);
       return SignUp.fromJson(jsonDecode(response.body));
@@ -41,11 +39,14 @@ class AuthDataProvider {
     }
   }
 
-
   Future<SignIn> login(SignIn user, String url) async {
+    // String? token = await storage.read(key: "token");
     url = formater(url);
     final http.Response response = await http.post(Uri.parse(url),
-        headers: <String, String>{"Content-Type": "application/json"},
+        headers: <String, String>{
+          "Content-Type": "application/json",
+          "Authorization": "Bearer token"
+        },
         body: jsonEncode({
           "email": user.name,
           "password": user.password,
