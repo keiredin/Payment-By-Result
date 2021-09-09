@@ -19,5 +19,5 @@ abstract class ValueFailure<T> with _$ValueFailure<T> {
   }) = ShortPassword<T>;
   const factory ValueFailure.invalidName({
     required T failedValue,
-  }) = ShortPassword<T>;
+  }) = InvalidName<T>;
 }
