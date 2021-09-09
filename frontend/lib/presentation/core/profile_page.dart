@@ -76,7 +76,7 @@ class ProfilePage extends StatelessWidget {
             SizedBox(
               height: 10.0,
             ),
-            ProfileDataView(),
+            ProfileDataView(key: Key("ProfileDataView"),),
           ],
         ),
       ),
