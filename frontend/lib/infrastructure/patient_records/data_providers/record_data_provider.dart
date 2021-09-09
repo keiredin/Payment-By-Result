@@ -50,19 +50,24 @@ class RecordsDataProvider {
     }
   }
 
-  Future<UserRecord> fetchAll(String url) async {
+  Future<List<UserRecord>> fetchAll(String url) async {
+    List<UserRecord> records = [];
     url = formater(url);
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       // print('hey');
       // // logger.i(response.body);
 
-      final records = jsonDecode(response.body);
-      return UserRecord.fromJson(records);
-
-      // User.fromJson(jsonDecode(response.body))
+      // final records = jsonDecode(response.body);
+      // return UserRecord.fromJson(records);
 
       
+      final responceData = response.body as List;
+      logger.i(responceData);
+      records = responceData.map((e) => UserRecord.fromJson(e)).toList();
+      return records;
+
+      // User.fromJson(jsonDecode(response.body))
       // return users.map((c) => User.fromJson(c)).toList();
     } else {
       throw Exception("Could not fetch record");

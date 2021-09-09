@@ -20,7 +20,7 @@ class InterventionRepository {
     return this.dataProvider.fetchBycptCode(cptCode);
   }
 
-  Future<Intervention> fetchAll() async {
+  Future<List<Intervention>> fetchAll() async {
     return this.dataProvider.fetchAll();
   }
 

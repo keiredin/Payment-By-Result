@@ -16,7 +16,7 @@ class RecordRepository {
     return this.dataProvider.fetchById(url);
   }
 
-  Future<UserRecord> fetchAll(String url) async {
+  Future<List<UserRecord>> fetchAll(String url) async {
     return this.dataProvider.fetchAll(url);
   }
 }

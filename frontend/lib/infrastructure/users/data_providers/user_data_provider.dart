@@ -4,6 +4,10 @@ import 'package:logger/logger.dart';
 
 import './../models/models.dart';
 
+// Localhost in ios emulator 127.0.0.1 or localhost
+// Localhost in android emulator 10.0.2.2
+// Localhost in real devices currentIpaddress/api/v1 ....
+
 class UsersDataProvider {
   // A function that converts a response body in a List
   List<User> parseUsers(String responseBody) {

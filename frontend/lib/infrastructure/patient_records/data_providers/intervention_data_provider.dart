@@ -51,15 +51,24 @@ class InterventionsDataProvider {
     }
   }
 
-  Future<Intervention> fetchAll() async {
+  Future<List<Intervention>> fetchAll() async {
+    List<Intervention> interventions = [];
     final response = await http.get(Uri.parse(_baseUrl));
     if (response.statusCode == 200) {
-      print('hey');
-      final interventions = jsonDecode(response.body);
-      logger.i((response.body));
-      return Intervention.fromJson(interventions);
-      // return parseUsers(response.body);
 
+      final responceData = response.body as List;
+      logger.i(responceData);
+      interventions = responceData.map((e) => Intervention.fromJson(e)).toList();
+      return interventions;
+
+
+      
+
+      // final interventions = jsonDecode(response.body);
+      // logger.i((response.body));
+      // return Intervention.fromJson(interventions);
+
+      // return parseUsers(response.body);
       // final user = jsonDecode(response.body) as List;
       // logger.i(user);
       // return user.map((c) => User.fromJson(c)).toList();

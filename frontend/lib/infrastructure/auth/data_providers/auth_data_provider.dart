@@ -6,6 +6,11 @@ import 'package:logger/logger.dart';
 import './../models/sign_up.dart';
 import './../models/sign_in.dart';
 
+
+// Localhost in ios emulator 127.0.0.1 or localhost
+// Localhost in android emulator 10.0.2.2
+// Localhost in real devices currentIpaddress/api/v1 ....
+
 class AuthDataProvider {
   // A function that converts a response body in a List
   List<SignUp> parseSignUps(String responseBody) {
