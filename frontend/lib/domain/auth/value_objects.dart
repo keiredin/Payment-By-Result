@@ -22,11 +22,23 @@ class Password extends ValueObject<String> {
   final Either<ValueFailure<String>, String> value;
 
   factory Password(String input) {
-    assert(input != null);
     return Password._(
       validatePassword(input),
     );
   }
 
   const Password._(this.value);
+}
+
+class Name extends ValueObject<String> {
+  @override
+  final Either<ValueFailure<String>, String> value;
+
+  factory Name(String input) {
+    return Name._(
+      validateName(input),
+    );
+  }
+
+  const Name._(this.value);
 }

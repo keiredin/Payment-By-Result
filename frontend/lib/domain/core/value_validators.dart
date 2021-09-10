@@ -43,8 +43,7 @@ Either<ValueFailure<String>, String> validatePassword(String input) {
 }
 
 Either<ValueFailure<String>, String> validateName(String input) {
-  const nameRegex =
-      r"""([a-zA-Z]\s*[a-zA-Z]+)""";
+  const nameRegex = r"""([a-zA-Z]\s*[a-zA-Z]+)""";
   if (RegExp(nameRegex).hasMatch(input)) {
     return right(input);
   } else {
