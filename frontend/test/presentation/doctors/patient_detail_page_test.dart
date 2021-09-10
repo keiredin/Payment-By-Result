@@ -7,12 +7,12 @@ void main() {
     await tester.pumpWidget(MaterialApp(home: PatientDetailPage()));
 
     final Image image = find.byType(Image).evaluate().single.widget as Image;
-    String source;
-    if(image.image is AssetImage) {
-      source = image.image.assetName;
-    } else if(image.image is NetworkImage) {
-      source = image.image.url;
-    }
+    // String source;
+    // if(image.image is AssetImage) {
+    //   source = image.image.assetName;
+    // } else if(image.image is NetworkImage) {
+    //   source = image.image.url;
+    // }
 
     final tabView = find.byKey(Key("tabview"));
     final tabBar = find.byType(TabBarView);
