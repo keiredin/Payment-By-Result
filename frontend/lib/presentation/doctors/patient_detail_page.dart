@@ -18,6 +18,7 @@ class PatientDetailPage extends StatelessWidget {
           padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.05),
           length: 2,
+          key: Key("tabview"),
           tabBarView:
               TabBarView(children: [ProfileDataView(), RecordsListView()]),
           tabs: ['Profile', 'History'],
