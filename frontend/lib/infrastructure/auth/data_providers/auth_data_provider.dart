@@ -22,7 +22,7 @@ class AuthDataProvider {
   static final String _baseUrl = "http://localhost:3000/api/v1/auth";
   var logger = Logger();
 
-  Future<SignUp> create(SignUp user, String url) async {
+  Future<SignUp> register(SignUp user, String url) async {
     // String? token = await storage.read(key: "token");
     url = formater(url);
     final http.Response response = await http.post(Uri.parse(url),
@@ -50,23 +50,28 @@ class AuthDataProvider {
         headers: <String, String>{
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
-          "Authorization": "Bearer token"
         },
         body: jsonEncode({"email": email}));
 
     if (response.statusCode == 400) {
+      // bad not provided
       logger.i(response.statusCode);
       logger.i(response.body);
       return jsonDecode(response.body);
+
     } else if (response.statusCode == 404) {
+      // email not found
       logger.i(response.statusCode);
       logger.i(response.body);
       return jsonDecode(response.body);
     } else if (response.statusCode == 409) {
+      // email and password both exist: already registered
       logger.i(response.statusCode);
       logger.i(response.body);
       return jsonDecode(response.body);
-    } else if (response.statusCode == 100) {
+
+    } else if (response.statusCode == 200) {
+      // email registered but not password: CONTINUE
       logger.i(response.statusCode);
       logger.i(response.body);
       return jsonDecode(response.body);
