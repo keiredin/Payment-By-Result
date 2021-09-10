@@ -1,6 +1,11 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
+import 'package:frontend/presentation/core/profile_page.dart';
+import 'package:frontend/presentation/core/record_detail_page.dart';
+import 'package:frontend/presentation/doctors/doctors_home_page.dart';
+import 'package:frontend/presentation/doctors/patient_detail_page.dart';
+import 'package:frontend/presentation/patients/patients_home_page.dart';
+
+import 'edit_profile_page.dart';
 
 
 class App extends StatelessWidget {
@@ -12,7 +17,7 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "PBR",
       theme: ThemeData(fontFamily: 'Inter'),
-      home: Container(),
+      home: RecordDetailPage(),
     );
   }
 }
