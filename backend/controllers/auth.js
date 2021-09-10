@@ -36,7 +36,10 @@ const emailRegistered = async (req,res) => {
     throw new NotFoundError("Email does not exist");
   }
   if(user && user.password){
-    throw new BadRequestError("User already exists");
+    res
+      .Status(StatusCodes.CONFLICT)
+      .json({msg:"User already registered"})
+    
   }
   res
     .status(StatusCodes.CONTINUE)

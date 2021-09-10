@@ -6,7 +6,6 @@ import 'package:logger/logger.dart';
 import './../models/sign_up.dart';
 import './../models/sign_in.dart';
 
-
 // Localhost in ios emulator 127.0.0.1 or localhost
 // Localhost in android emulator 10.0.2.2
 // Localhost in real devices currentIpaddress/api/v1 ....
@@ -41,6 +40,39 @@ class AuthDataProvider {
     }
     {
       throw Exception("Failed to create user");
+    }
+  }
+
+  Future<String> emailRegistered(String email) async {
+    // String? token = await storage.read(key: "token");
+    String url = formater("/exist/register");
+    final http.Response response = await http.post(Uri.parse(url),
+        headers: <String, String>{
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Authorization": "Bearer token"
+        },
+        body: jsonEncode({"email": email}));
+
+    if (response.statusCode == 400) {
+      logger.i(response.statusCode);
+      logger.i(response.body);
+      return jsonDecode(response.body);
+    } else if (response.statusCode == 404) {
+      logger.i(response.statusCode);
+      logger.i(response.body);
+      return jsonDecode(response.body);
+    } else if (response.statusCode == 409) {
+      logger.i(response.statusCode);
+      logger.i(response.body);
+      return jsonDecode(response.body);
+    } else if (response.statusCode == 100) {
+      logger.i(response.statusCode);
+      logger.i(response.body);
+      return jsonDecode(response.body);
+    }
+    {
+      throw Exception("Failed to check email");
     }
   }
 
