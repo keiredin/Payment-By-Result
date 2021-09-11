@@ -10,6 +10,8 @@ class CustomTextField extends StatelessWidget {
     this.obscureText = false,
     this.suffixIcon,
     this.onTap = null,
+    this.validator,
+    this.onChanged,
   }) : super(key: key);
 
   final String hintText;
@@ -17,10 +19,14 @@ class CustomTextField extends StatelessWidget {
   final bool obscureText;
   final Widget? suffixIcon;
   final VoidCallback? onTap;
+  final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
     return CustomTextFormField(
+      onChanged: onChanged,
+      validator: validator,
       controller: controller,
       obscureText: obscureText,
       decoration: InputDecoration(
