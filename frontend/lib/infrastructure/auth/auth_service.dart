@@ -7,7 +7,7 @@ class AuthService {
   String baseUrl = 'http://localhost:3000/api/v1/auth';
   FlutterSecureStorage _storage = FlutterSecureStorage();
 
-  Future<String> register(String email, String password) async {
+  Future<String> register(User user) async {
     return 'token';
   }
 
@@ -30,7 +30,7 @@ class AuthService {
           email: 'test@gmail.com',
           password: 'something',
           profilePicture: '',
-          dob: DateTime.now(),
+          dob: '',
           phoneNumber: '',
           role: 'patient');
     }
@@ -43,7 +43,7 @@ class AuthService {
       email: email,
       password: '',
       profilePicture: '',
-      dob: DateTime.now(),
+      dob: '',
       phoneNumber: '',
       role: 'patient',
     );

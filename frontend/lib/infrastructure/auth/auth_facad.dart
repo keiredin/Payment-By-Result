@@ -21,10 +21,21 @@ class AuthFacade implements IAuthFacade {
   Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({
     required EmailAddress emailAddress,
     required Password password,
+    required Phone phone,
+    required String dob,
+    required Name name,
   }) async {
     try {
-      String token = await _authService.register(
-          emailAddress.getOrCrash(), password.getOrCrash());
+      User user = User(
+        id: '',
+        email: emailAddress.getOrCrash(),
+        password: password.getOrCrash(),
+        profilePicture: '',
+        dob: dob,
+        phoneNumber: phone.getOrCrash(),
+        role: 'patient',
+      );
+      String token = await _authService.register(user);
       _authService.setToken(token);
       return right(unit);
     } catch (e) {
@@ -69,7 +80,7 @@ class AuthFacade implements IAuthFacade {
         email: emailAddress.getOrCrash(),
         password: '',
         profilePicture: '',
-        dob: DateTime.now(),
+        dob: '',
         phoneNumber: '',
         role: '',
       ),

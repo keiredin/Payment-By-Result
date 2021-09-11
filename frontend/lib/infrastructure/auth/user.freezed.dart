@@ -25,7 +25,7 @@ class _$UserTearOff {
       required String email,
       required String password,
       required String profilePicture,
-      required DateTime dob,
+      required String dob,
       required String phoneNumber,
       required String role}) {
     return _User(
@@ -53,7 +53,7 @@ mixin _$User {
   String get email => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
   String get profilePicture => throw _privateConstructorUsedError;
-  DateTime get dob => throw _privateConstructorUsedError;
+  String get dob => throw _privateConstructorUsedError;
   String get phoneNumber => throw _privateConstructorUsedError;
   String get role => throw _privateConstructorUsedError;
 
@@ -71,7 +71,7 @@ abstract class $UserCopyWith<$Res> {
       String email,
       String password,
       String profilePicture,
-      DateTime dob,
+      String dob,
       String phoneNumber,
       String role});
 }
@@ -114,7 +114,7 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
       dob: dob == freezed
           ? _value.dob
           : dob // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as String,
       phoneNumber: phoneNumber == freezed
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
@@ -137,7 +137,7 @@ abstract class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       String email,
       String password,
       String profilePicture,
-      DateTime dob,
+      String dob,
       String phoneNumber,
       String role});
 }
@@ -181,7 +181,7 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
       dob: dob == freezed
           ? _value.dob
           : dob // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as String,
       phoneNumber: phoneNumber == freezed
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
@@ -219,7 +219,7 @@ class _$_User extends _User {
   @override
   final String profilePicture;
   @override
-  final DateTime dob;
+  final String dob;
   @override
   final String phoneNumber;
   @override
@@ -281,7 +281,7 @@ abstract class _User extends User {
       required String email,
       required String password,
       required String profilePicture,
-      required DateTime dob,
+      required String dob,
       required String phoneNumber,
       required String role}) = _$_User;
   const _User._() : super._();
@@ -297,7 +297,7 @@ abstract class _User extends User {
   @override
   String get profilePicture => throw _privateConstructorUsedError;
   @override
-  DateTime get dob => throw _privateConstructorUsedError;
+  String get dob => throw _privateConstructorUsedError;
   @override
   String get phoneNumber => throw _privateConstructorUsedError;
   @override

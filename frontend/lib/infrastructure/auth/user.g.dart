@@ -12,7 +12,7 @@ _$_User _$_$_UserFromJson(Map<String, dynamic> json) {
     email: json['email'] as String,
     password: json['password'] as String,
     profilePicture: json['profilePicture'] as String,
-    dob: DateTime.parse(json['dob'] as String),
+    dob: json['dob'] as String,
     phoneNumber: json['phoneNumber'] as String,
     role: json['role'] as String,
   );
@@ -23,7 +23,7 @@ Map<String, dynamic> _$_$_UserToJson(_$_User instance) => <String, dynamic>{
       'email': instance.email,
       'password': instance.password,
       'profilePicture': instance.profilePicture,
-      'dob': instance.dob.toIso8601String(),
+      'dob': instance.dob,
       'phoneNumber': instance.phoneNumber,
       'role': instance.role,
     };

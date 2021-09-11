@@ -12,7 +12,7 @@ abstract class User implements _$User {
     required String email,
     required String password,
     required String profilePicture,
-    required DateTime dob,
+    required String dob,
     required String phoneNumber,
     required String role,
   }) = _User;

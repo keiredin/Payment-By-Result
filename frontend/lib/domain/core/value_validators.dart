@@ -50,3 +50,13 @@ Either<ValueFailure<String>, String> validateName(String input) {
     return left(ValueFailure.invalidName(failedValue: input));
   }
 }
+
+Either<ValueFailure<String>, String> validatePhone(String input) {
+  const nameRegex =
+      r"""\+?1?\s*\(?-*\.*(\d{3})\)?\.*-*\s*(\d{3})\.*-*\s*(\d{4})$""";
+  if (RegExp(nameRegex).hasMatch(input)) {
+    return right(input);
+  } else {
+    return left(ValueFailure.invalidPhone(failedValue: input));
+  }
+}
