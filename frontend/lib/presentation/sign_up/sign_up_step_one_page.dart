@@ -14,25 +14,14 @@ class SignUpStepOnePage extends StatelessWidget {
       backgroundColor: BACKGROUND_COLOR,
       body: BlocProvider(
         create: (context) => getIt<SignUpStepOneBloc>(),
-        child: NewWidget(),
-      ),
-    );
-  }
-}
-
-class NewWidget extends StatelessWidget {
-  const NewWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 0.05,
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.05,
+            ),
+            child: SignUpStepOneForm(),
+          ),
         ),
-        child: SignUpStepOneForm(),
       ),
     );
   }

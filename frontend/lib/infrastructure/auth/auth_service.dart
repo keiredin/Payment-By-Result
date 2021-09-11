@@ -15,6 +15,11 @@ class AuthService {
     return 'token';
   }
 
+  Future<String> updatePasswordForNewUser(
+      String userId, String password) async {
+    return 'token';
+  }
+
   void setToken(String token) {
     _storage.write(key: 'token', value: 'token');
   }
@@ -38,15 +43,18 @@ class AuthService {
   }
 
   Future<User?> userExists(String email) async {
-    return User(
-      id: '',
-      email: email,
-      password: '',
-      profilePicture: '',
-      dob: '',
-      phoneNumber: '',
-      role: 'patient',
-    );
+    if (email == 'test@t.com') {
+      return User(
+        id: 'userTest',
+        email: email,
+        password: '',
+        profilePicture: '',
+        dob: '',
+        phoneNumber: '',
+        role: 'patient',
+      );
+    }
+    return null;
   }
 
   void signOut() {

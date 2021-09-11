@@ -71,8 +71,9 @@ class AuthFacade implements IAuthFacade {
   Future<Either<User, User>> checkIfUserExists(
       {required EmailAddress emailAddress}) async {
     final user = await _authService.userExists(emailAddress.getOrCrash());
+    print(user);
     if (user != null) {
-      right(user);
+      return right(user);
     }
     return left(
       User(
@@ -85,5 +86,15 @@ class AuthFacade implements IAuthFacade {
         role: '',
       ),
     );
+  }
+
+  @override
+  Future<Either<AuthFailure, Unit>> updatePasswordForNewUser(
+      {required String userId, required Password password}) async {
+    print(userId);
+    final token = await _authService.updatePasswordForNewUser(
+        userId, password.getOrCrash());
+    _authService.setToken(token);
+    return right(unit);
   }
 }
