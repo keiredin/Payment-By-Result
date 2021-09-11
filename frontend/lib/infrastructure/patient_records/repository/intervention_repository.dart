@@ -1,14 +1,11 @@
-import 'package:frontend/domain/auth/user.dart';
-
 import './../data_providers/intervention_data_provider.dart';
 import './../models/intervention.dart';
-
 
 class InterventionRepository {
   final InterventionsDataProvider dataProvider;
   InterventionRepository(this.dataProvider);
 
-  Future<Intervention> create(Intervention intervention,int cptCode) async {
+  Future<Intervention> create(Intervention intervention, int cptCode) async {
     return this.dataProvider.create(intervention, cptCode);
   }
 
