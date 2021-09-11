@@ -21,7 +21,7 @@ class _$UserTearOff {
   const _$UserTearOff();
 
   _User call(
-      {required String id,
+      {@JsonKey(name: '_id') required String id,
       required String email,
       required String password,
       required String profilePicture,
@@ -49,6 +49,7 @@ const $User = _$UserTearOff();
 
 /// @nodoc
 mixin _$User {
+  @JsonKey(name: '_id')
   String get id => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
@@ -67,7 +68,7 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res>;
   $Res call(
-      {String id,
+      {@JsonKey(name: '_id') String id,
       String email,
       String password,
       String profilePicture,
@@ -133,7 +134,7 @@ abstract class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$UserCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String id,
+      {@JsonKey(name: '_id') String id,
       String email,
       String password,
       String profilePicture,
@@ -198,7 +199,7 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_User extends _User {
   const _$_User(
-      {required this.id,
+      {@JsonKey(name: '_id') required this.id,
       required this.email,
       required this.password,
       required this.profilePicture,
@@ -211,6 +212,7 @@ class _$_User extends _User {
       _$_$_UserFromJson(json);
 
   @override
+  @JsonKey(name: '_id')
   final String id;
   @override
   final String email;
@@ -277,7 +279,7 @@ class _$_User extends _User {
 
 abstract class _User extends User {
   const factory _User(
-      {required String id,
+      {@JsonKey(name: '_id') required String id,
       required String email,
       required String password,
       required String profilePicture,
@@ -289,6 +291,7 @@ abstract class _User extends User {
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
 
   @override
+  @JsonKey(name: '_id')
   String get id => throw _privateConstructorUsedError;
   @override
   String get email => throw _privateConstructorUsedError;

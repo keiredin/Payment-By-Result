@@ -18,6 +18,10 @@ abstract class IAuthFacade {
     required EmailAddress emailAddress,
     required Password password,
   });
+  Future<Either<AuthFailure, Unit>> updatePasswordForNewUser({
+    required String userId,
+    required Password password,
+  });
   Future<Either<User, User>> checkIfUserExists(
       {required EmailAddress emailAddress});
   Future<void> signOut();

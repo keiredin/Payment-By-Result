@@ -81,7 +81,6 @@ class SignUpNewToSystemBloc
             dob: state.dob,
             name: state.name,
           );
-          print(failureOrSuccess);
         }
 
         yield state.copyWith(

@@ -8,7 +8,7 @@ abstract class User implements _$User {
   const User._();
 
   const factory User({
-    required String id,
+    @JsonKey(name: '_id') required String id,
     required String email,
     required String password,
     required String profilePicture,
