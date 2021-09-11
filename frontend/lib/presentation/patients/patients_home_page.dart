@@ -18,6 +18,7 @@ class PatientsHomePage extends StatelessWidget {
         child: HomePage(
           tabView: TabView(
             length: 2,
+            key: Key("tabview"),
             tabBarView:
                 TabBarView(children: [RecordsListView(), RecordsListView()]),
             tabs: ['History', 'Due'],
