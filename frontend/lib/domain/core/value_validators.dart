@@ -43,11 +43,20 @@ Either<ValueFailure<String>, String> validatePassword(String input) {
 }
 
 Either<ValueFailure<String>, String> validateName(String input) {
-  const nameRegex =
-      r"""([a-zA-Z]\s*[a-zA-Z]+)""";
+  const nameRegex = r"""([a-zA-Z]\s*[a-zA-Z]+)""";
   if (RegExp(nameRegex).hasMatch(input)) {
     return right(input);
   } else {
     return left(ValueFailure.invalidName(failedValue: input));
+  }
+}
+
+Either<ValueFailure<String>, String> validatePhone(String input) {
+  const nameRegex =
+      r"""\+?1?\s*\(?-*\.*(\d{3})\)?\.*-*\s*(\d{3})\.*-*\s*(\d{4})$""";
+  if (RegExp(nameRegex).hasMatch(input)) {
+    return right(input);
+  } else {
+    return left(ValueFailure.invalidPhone(failedValue: input));
   }
 }

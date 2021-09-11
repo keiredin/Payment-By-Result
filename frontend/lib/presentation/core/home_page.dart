@@ -5,8 +5,11 @@ import 'package:frontend/presentation/core/widgets/tab_view.dart';
 import '../colors.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key, required this.tabView}) : super(key: key);
-  final TabView tabView;
+  const HomePage(
+      {Key? key, required this.tabView, required this.bottomNavChildren})
+      : super(key: key);
+  final Widget tabView;
+  final List<IconButton> bottomNavChildren;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +31,7 @@ class HomePage extends StatelessWidget {
           left: 20,
           child: BottomNav(
             height: MediaQuery.of(context).size.height * 0.08,
-            children: [Icons.home_sharp, Icons.person_sharp],
+            children: bottomNavChildren,
           ),
         )
       ],
@@ -42,7 +45,7 @@ class _HomePageBody extends StatelessWidget {
     required this.tabView,
   }) : super(key: key);
 
-  final TabView tabView;
+  final Widget tabView;
 
   @override
   Widget build(BuildContext context) {

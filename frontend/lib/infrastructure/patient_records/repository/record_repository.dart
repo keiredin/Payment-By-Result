@@ -1,14 +1,11 @@
-import 'package:frontend/domain/auth/user.dart';
-
 import './../data_providers/record_data_provider.dart';
 import './../models/record.dart';
-
 
 class RecordRepository {
   final RecordsDataProvider dataProvider;
   RecordRepository(this.dataProvider);
 
-  Future<UserRecord> create(UserRecord record,String url) async {
+  Future<UserRecord> create(UserRecord record, String url) async {
     return this.dataProvider.create(record, url);
   }
 

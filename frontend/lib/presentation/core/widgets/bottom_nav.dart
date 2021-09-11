@@ -1,17 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/presentation/colors.dart';
+import 'package:frontend/presentation/router/router.gr.dart';
 
 class BottomNav extends StatelessWidget {
   const BottomNav({
     Key? key,
-    this.size = 27,
     required this.children,
-    this.color = Colors.white,
     this.height,
   }) : super(key: key);
-  final double size;
-  final List<IconData> children;
-  final Color color;
+  final List<IconButton> children;
   final double? height;
 
   @override
@@ -19,21 +16,9 @@ class BottomNav extends StatelessWidget {
     return Container(
       height: height,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: children
-            .map(
-              (icon) => IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  icon,
-                  color: color,
-                  size: size,
-                ),
-              ),
-            )
-            .toList(),
-      ),
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: children),
     );
   }
 }

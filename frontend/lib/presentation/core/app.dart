@@ -1,23 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/presentation/core/profile_page.dart';
-import 'package:frontend/presentation/core/record_detail_page.dart';
-import 'package:frontend/presentation/doctors/doctors_home_page.dart';
-import 'package:frontend/presentation/doctors/patient_detail_page.dart';
-import 'package:frontend/presentation/patients/patients_home_page.dart';
-
-import 'edit_profile_page.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:frontend/application/auth/auth_bloc.dart';
+import 'package:frontend/injection.dart';
+import 'package:frontend/presentation/router/router.gr.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  App({Key? key}) : super(key: key);
+
+  final _appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "PBR",
-      theme: ThemeData(fontFamily: 'Inter'),
-      home: RecordDetailPage(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => getIt<AuthBloc>()
+            ..add(
+              AuthEvent.authCheckRequested(),
+            ),
+        ),
+      ],
+      child: MaterialApp.router(
+        routeInformationParser: _appRouter.defaultRouteParser(),
+        routerDelegate: _appRouter.delegate(),
+        debugShowCheckedModeBanner: false,
+        title: "PBR",
+        theme: ThemeData(fontFamily: 'Inter'),
+      ),
     );
   }
 }
